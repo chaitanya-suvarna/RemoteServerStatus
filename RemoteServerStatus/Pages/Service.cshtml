@@ -3,6 +3,58 @@
 @{
     ViewData["Title"] = "Service";
 }
+<div>
+    <input type="text" class="form-control" id="searchStatus" onkeyup="searchFunction()" placeholder="Search..">
+    <br />
 
-<h1>Service</h1>
+    <table class="table table-striped table-dark" id="serviceTable">
+        <thead>
+            <tr id="header">
+                <th>
+                    Server Name
+                </th>
+                <th>
+                    Service Name
+                </th>
+                <th>
+                    Service Status
+                </th>
+                <th colspan="2">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model.windowsServiceList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => record.ServerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => record.ServiceName)
+                    </td>
+                    <td>
+                        @if (record.ServiceStatus.Equals("Running"))
+                        {
+                            <p class="text-success">@Html.DisplayFor(modelItem => record.ServiceStatus)</p>
+                        }
+                        else
+                        {
+                            <p class="text-danger">@Html.DisplayFor(modelItem => record.ServiceStatus)</p>
+                        }
+                    </td>
 
+                    <form method="post">
+                        <td>
+                            <input type="submit" value="Start" class="btn btn-success btn-xs" asp-route-server="@record.ServerName" asp-route-service="@record.ServiceName" asp-page-handler="StartService" />
+                        </td>
+                        <td>
+                            <input type="submit" value="Stop" class="btn btn-danger btn-xs" asp-route-server="@record.ServerName" asp-route-service="@record.ServiceName" asp-page-handler="StopService" />
+                        </td>
+                    </form>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
