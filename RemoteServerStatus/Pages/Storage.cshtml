@@ -4,5 +4,58 @@
     ViewData["Title"] = "Storage";
 }
 
-<h1>Storage</h1>
+<div>
+    <input type="text" class="form-control" id="searchStatus" onkeyup="searchFunction()" placeholder="Search..">
+    <br />
+    <table class="table table-striped table-dark" id="serviceTable">
+        <thead>
+            <tr id="header">
+                <td> Server Name</td>
+                <td> Drive</td>
+                <td> Drive Label</td>
+                <td> Total Capacity(GB) </td>
+                <td> Used Capacity(GB) </td>
+                <td> Free Space(GB) </td>
+                <td> Free Space %</td>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @foreach (var record in Model.storageDetailsList)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => record.ServerName)</td>
+                    <td> @Html.DisplayFor(modelItem => record.DriveName)</td>
+                    <td> @Html.DisplayFor(modelItem => record.DriveLabel)</td>
+                    <td> @Html.DisplayFor(modelItem => record.DiskSize) </td>
+                    <td> @Html.DisplayFor(modelItem => record.DiskUsedSpace) </td>
+                    <td> @Html.DisplayFor(modelItem => record.DiskFreeSpace) </td>
+                    <td>
+                        @if (record.FreeSpacePercentage > 80)
+                        {
+                            <p class="text-success">
+                                @Html.DisplayFor(modelItem => record.FreeSpacePercentage)%
+                            </p>
+                        }
+                        @if (record.FreeSpacePercentage > 25 && record.FreeSpacePercentage <= 80)
+                        {
+                            <p class="text-warning">
+                                @Html.DisplayFor(modelItem => record.FreeSpacePercentage)%
+                            </p>
+                        }
+                        @if (record.FreeSpacePercentage <= 25)
+                        {
+                            <p class="text-danger">
+                                @Html.DisplayFor(modelItem => record.FreeSpacePercentage)%
+                            </p>
+                        }
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
 
